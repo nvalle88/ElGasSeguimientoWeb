@@ -1,0 +1,17 @@
+div.validation-summary-valid {
+    display: none;
+}
+.ladda-spinner {
+    position: relative;
+    bottom: 9px;
+}
+
+.bs-example {
+    background-color: #fafafa;
+    border-color: #e5e5e5 #eee #eee;
+    border-style: solid;
+    border-width: 1px;
+    margin: 0 0px 15px;
+    padding: 15px 15px 15px;
+    position: relative;
+}

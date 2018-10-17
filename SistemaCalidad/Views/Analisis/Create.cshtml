@@ -1,0 +1,732 @@
+﻿@model SistemaCalidad.Models.Analisis
+@inject UserManager<ApplicationUser> UserManager
+@{
+    ViewData["Title"] = "CREATE";
+}
+
+<link rel="stylesheet" href="~/lib/select2/dist/css/select2.min.css" />
+<div class="row">
+    @{var user = await UserManager.FindByEmailAsync(User.Identity.Name);}
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div id="content" class="well no-padding">
+            <form asp-action="Create" method="post" novalidate="novalidate" class="smart-form client-form">
+                <header>
+                    @ViewData["accion"] An&aacute;lisis
+                    <b class="text-success pull-right" >An&aacute;lisis sin realizar </b>
+                    
+                </header>
+                <fieldset>
+                    <input asp-for="AnalisisId" type="hidden" />
+                    <section>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                    </section>
+
+                    <div class="row col col-lg-12">
+                        <section class="col-lg-12">
+                            <label class="label">Resposnsable: <b> @user.Name  @user.LastName</b></label>
+                            <hr />
+                        </section>
+                    </div>
+                    <div class="col col-lg-12 margin-top-10">
+                        <section class=" col col-lg-3">
+                            <label class="label">Fecha:</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-calendar"></i>
+                                <input type="datetime" asp-for="FechaAnalisis" placeholder="Ingrese la fecha" class="datepicker">
+                                <b class="tooltip tooltip-bottom-right">Ingrese la fecha</b>
+                                <span asp-validation-for="FechaAnalisis" class="text-danger"></span>
+                            </label>
+                        </section>
+                        <section class="col col-lg-3">
+                            <label class="label">Turno:</label>
+                            <div class="input">
+                                <select asp-for="Turno" class="form-control">
+                                    <option value="0" selected="selected">--Seleccione el turno--</option>
+                                    <option value="1">&nbsp;1</option>
+                                    <option value="2">&nbsp;2</option>
+                                    <option value="3">&nbsp;3</option>
+                                </select>
+                                <span asp-validation-for="Turno" class="text-danger"></span>
+                            </div>
+                        </section>
+
+                        <section class="col col-lg-3">
+                            <label class="label">Temperatura (℃):</label>
+                            <label class="input">
+                                <input type="number" asp-for="Temperatura" placeholder="Ingrese la temperatura">
+                                <b class="tooltip tooltip-bottom-right">Ingrese la temperatura (℃)</b>
+                                <span asp-validation-for="Temperatura" class="text-danger"></span>
+                            </label>
+                        </section>
+                        <section class="col col-lg-3">
+                            <label class="label">M&aacute;quina</label>
+                            <div class="input">
+                                <select asp-for="MaquinaId" class="form-control" asp-items="ViewBag.MaquinaId">
+                                    <option value="0" selected="selected">--Seleccione la m&aacute;quina--</option>
+                                </select>
+                                <span asp-validation-for="MaquinaId" class="text-danger"></span>
+                            </div>
+                        </section>
+
+                    </div>
+                    <div class="col col-lg-12 margin-top-10">
+                        <section class="col col-lg-3">
+                            <label class="label">N&uacute;mero de orden:</label>
+                            <label class="input">
+                                <input type="text" asp-for="NumeroOrden" onBlur="cantidadanalisis()" placeholder="Ingrese el número de orden">
+                                <b class="tooltip tooltip-bottom-right">Ingrese los apellidos del usuario</b>
+                                <span asp-validation-for="NumeroOrden" class="text-danger"></span>
+                            </label>
+                        </section>
+                        <section class="col col-lg-1">
+                            <label class="label">&nbsp;</label>
+                            <div id="cantidadanalisisrealizados" class="widget-toolbar" role="menu">
+                                <div class="badge bg-color-blue fa-lg">
+                                    0
+                                </div>
+                            </div>
+                        </section>
+                        <section class="col col-lg-2">
+                            <label class="label"># Rollo:</label>
+                            <label class="input">
+                                <input type="number" asp-for="Rollo" placeholder="Ingrese el # de rollo">
+                                <b class="tooltip tooltip-bottom-right">Ingrese el # de rollo</b>
+                                <span asp-validation-for="Rollo" class="text-danger"></span>
+                            </label>
+                        </section>
+
+                        <section class="col col-lg-6">
+                            <label class="label">Cliente</label>
+                            <div class="input">
+                                <select asp-for="ClienteId" class="form-control" asp-items="ViewBag.ClienteId">
+                                    <option value="0" selected="selected">--Seleccione el cliente--</option>
+                                </select>
+                                <span asp-validation-for="ClienteId" class="text-danger"></span>
+                            </div>
+                        </section>
+
+                    </div>
+                    <div class="col col-lg-12">
+                        <section class="col col-lg-12">
+                            <label class="textarea">
+                                <textarea rows="3" asp-for="Observaciones" placeholder="Observaciones"></textarea>
+                            </label>
+                        </section>
+                    </div>
+                    <div class="col col-lg-12 margin-top-10">
+                        <section class="col col-lg-4">
+                            <label class="label">Producto</label>
+                            <div class="input">
+                                <select asp-for="ProductoId" class="select2" asp-items="ViewBag.ProductoId">
+                                    <option value="0" selected="selected">--Seleccione el producto--</option>
+                                </select>
+                                <span asp-validation-for="ProductoId" class="text-danger"></span>
+                            </div>
+                        </section>
+                        <div class="col col-lg-8 margin-top-10" id="detalleproducto" hidden="hidden">
+                            <section class="col col-lg-12">
+                                <div class="col col-lg-12 product-content product-wrap clearfix">
+                                    <div class="col col-md-12 col col-sm-12 col col-xs-12 col col-lg-12">
+                                        <div class="product-deatil col col-lg-12 text-align-left JustifyFull">
+                                            <h4 class="name">
+                                                <b>
+                                                    <a href="#" id="descripcionproducto">
+
+                                                    </a>
+                                                </b>
+                                            </h4>
+                                            <h5 class="name">
+                                                <a href="#" id="observacionproducto">
+                                                </a>
+                                            </h5>
+                                        </div>
+                                        <br />
+                                        <section class="col col-lg-12 text-align-center">
+                                            <p class="price-container col-lg-4 margin-top-10 margin-bottom-10">
+                                                <span>Clasificaci&oacute;n:</span>
+                                                <br />
+                                                <span id="clasificacionproducto"></span>
+                                            </p>
+                                            <p class="price-container col-lg-4 margin-top-10 margin-bottom-10">
+                                                <span>Grado:</span><br />
+                                                <span id="gradoproducto"></span>
+                                            </p>
+
+                                            <p class="price-container col-lg-4 margin-top-10 margin-bottom-10">
+                                                <span>Di&aacute;metro:</span>
+                                                <br />
+                                                <span id="diametroproducto"></span>
+                                            </p>
+                                        </section>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div class="col col-lg-12 margin-top-10">
+                        <section class="col col-lg-5">
+                            <label class="label">Tipo de material</label>
+                            <div class="input">
+                                <select class="select2" id="selectTipoMaterial" asp-items="ViewBag.TipoMaterialId">
+                                    <option value="0" selected="selected">--Seleccione el tipo de material--</option>
+                                </select>
+                            </div>
+                        </section>
+                        <section class="col col-lg-5">
+                            <label class="label">C&oacute;digo del material</label>
+                            <div class="input">
+                                <select class="select2 form-control" id="selectMaterial">
+                                    <option value="0" selected="selected">--Seleccione el material--</option>
+                                </select>
+                            </div>
+                        </section>
+                        <section class="col col-lg-2 margin-top-10">
+
+                            <button type="button" title="Adicionar material" onclick="adicionarmaterial()" class="btn btn-primary btn-circle btn-lg">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </section>
+
+                    </div>
+                    <section id="tipomaterialadicionado" class="col col-lg-12" hidden="hidden">
+                        <section class="col col-sm-12 col col-md-12 col col-lg-12">
+                                        <div class="panel-group smart-accordion-default" id="accordion">
+                                           
+                                        </div>
+                        </section>
+                    </section>
+                    <section id="mensajeexistetematerial" hidden="hidden" class="col col-lg-12">
+                        <section class=" col col-lg-12">
+                            <div class="alert alert-danger fade in">
+                                <i class="fa-fw fa fa-times"></i>
+                                <strong>Error!</strong>Ya ha insertado un c&oacute;digo para el tipo de material seleccionado.
+                            </div>
+                        </section>
+                    </section>
+
+                    <section id="mensajecompletematerial" hidden="hidden" class="col col-lg-12">
+                        <section class=" col col-lg-12">
+                            <div class="alert alert-danger fade in">
+
+                                <i class="fa-fw fa fa-times"></i>
+                                <strong>Error!</strong> Debe seleccionar el c&oacute;digo del material.
+                            </div>
+                        </section>
+                    </section>
+
+                   
+
+                    <section id="especificacionesgenerales" hidden="hidden" class="col col-lg-12">
+                        <legend>Especificaciones generales</legend>
+                        <section class="col col-lg-12 margin-top-10">
+                            <table id="tablaespecificacionesgenerales" class="table table-bordered table-striped" style="clear: both"></table>
+                        </section>
+                    </section>
+
+                    <section class=" col col-lg-12 margin-top-5">
+                        <section id="mensajeseleccionarproducto" hidden="hidden" class="col col-lg-12">
+                            <section class=" col col-lg-12">
+                                <div class="alert alert-danger fade in">
+
+                                    <i class="fa-fw fa fa-times"></i>
+                                    <strong>Error!</strong> Debe seleccionar el producto.
+                                </div>
+                            </section>
+                        </section>
+
+                        <section id="mensajeseleccionartodofiltar" hidden="hidden" class="col col-lg-12">
+                            <section class=" col col-lg-12">
+                                <div class="alert alert-danger fade in">
+                                    <i class="fa-fw fa fa-times"></i>
+                                    <strong>Error!</strong> Debe haber adicionado al menos un tipo de material.
+                                </div>
+                            </section>
+                        </section>
+
+                        <section class="col col-lg-12">
+                            <legend></legend>
+                            <div class="col col-lg-5">
+
+                            </div>
+                            <div class="col col-lg-5 margin-top-10">
+                                <button type="button" id="btn-guardar" title="Filtrar" onclick="filtrar()" class="btn btn-primary btn-lg">
+                                    <i class="fa fa-check fa-lg"></i> Filtrar
+                                </button>
+                            </div>
+                        </section>
+                    </section>
+
+
+
+
+
+
+                    <div id="divdtanalisis" class="row col col-lg-12" hidden="hidden">
+                        <div class=" col col-sm-12 margin-bottom-10">
+                            <div class="well  margin-top-5 margin-bottom-5">
+                                <table id="dtanalisis" class="table table-striped table-forum"></table>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+               
+                <footer>
+                    <button type="submit" id="btn-guardar" class="btn btn-primary" title="">
+                        Guardar
+                    </button>
+                    <a onclick="guardar()" class="btn btn-default"><strong> Cancelar </strong></a>
+                </footer>
+            </form>
+
+    </div>
+    </div>
+</div>
+<!-- /.modal -->
+@section Scripts {
+
+    @await Html.PartialAsync("_ValidationScriptsPartial");
+    <script type="text/javascript">
+        //jQuery(document).on('keydown', '#NumeroOrden', function (ev) {
+        //    if (ev.which === 13) {
+        //        // Will change backgroundColor to blue as example
+        //        cantidadanalisis();
+
+        //        // Avoid form submit
+        //        return false;
+        //    }
+        //});
+
+
+        var listamateriales = [];
+        var listaespecificaciones = [];
+
+        function cantidadanalisis()
+        {
+            mostrarLoadingPanel("content", "");
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CantidadAnalisisRealizados","Analisis")',
+                dataType: 'json',
+                data: { numeroOrden: $("#NumeroOrden").val() },
+                success: function (data) {
+
+                    document.getElementById("cantidadanalisisrealizados").innerHTML = "";
+                    $("#cantidadanalisisrealizados").html = "";
+                    var newTable = " <div  id='cantidadanalisisrealizados' class='widget-toolbar' role='menu'>";
+                  
+                    newTable += " <div  class='badge bg-color-blue'>";
+                    newTable += data;
+                    newTable += " </div>";
+                    newTable += " </div>";
+                    document.getElementById("cantidadanalisisrealizados").innerHTML = newTable;
+
+                }, complete: function (data) {
+                    $("#content").waitMe("hide");
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve data.' + ex);
+                }
+            });
+
+        };
+
+
+
+        $("#selectMaterial").change(function ()
+        {
+            $("#mensajecompletematerial").hide();
+            $("#mensajeexistetematerial").hide();
+            $("#mensajeseleccionartodofiltar").hide();
+
+        });
+
+       
+        function guardar()
+        {
+            
+
+           
+            for (var i = 0; i < listaespecificaciones.length; i++) {
+
+                var valor = $("#valor_" + listaespecificaciones[i].especificacionId).val();
+                listaespecificaciones[i].valorResultado = parseFloat(valor);
+
+                listaespecificaciones[i].cumple = cumple(listaespecificaciones[i].rangoMinimoProducto, listaespecificaciones[i].rangoMaximoProducto, valor)
+
+            }
+
+        }
+
+        function cumple(minimo, maximo, valor)
+        {
+
+            if (isNaN(minimo)) {
+                if (maximo >= valor) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+               
+            }
+
+            if (isNaN(maximo)) {
+                if (minimo <= valor) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+
+
+            if ((minimo <= valor) && (maximo >= valor)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+
+        }
+
+        function eliminarmaterial(idmaterial)
+        {
+            $("#divdtanalisis").hide();
+            $("#mensajecompletematerial").hide();
+            $("#mensajeexistetematerial").hide();
+            $("#mensajeseleccionartodofiltar").hide();
+            document.getElementById("dtanalisis").innerHTML = "";
+            for (var i = 0; i < listamateriales.length; i++)
+            {
+                if (listamateriales[i].idmaterial == idmaterial) {
+                    listamateriales.splice(i, 1);
+                    tbdibujaradicionarmaterial();
+                   
+                    break;
+                }
+
+            }
+        }
+
+        function tbdibujaradicionarmaterial()
+        {
+            if (listamateriales.length==0) {
+                document.getElementById("accordion").innerHTML = "";
+            }
+
+            if (listamateriales.length > 0) {
+
+                document.getElementById("accordion").innerHTML = "";
+                var newAcordion = " <div class=panel-group smart-accordion-default id=accordion >";
+                for (var i = 0; i < listamateriales.length; i++) {
+                    newAcordion += " <div class='panel panel-default'>";
+                    newAcordion += " <div class='panel-heading'>";
+                    newAcordion += " <h4 class='panel-title'>";
+                    newAcordion += "<a data-toggle='collapse' class='collapsed' data-parent='#accordion' href='#" + listamateriales[i].idtipomaterial + "'><i class='fa fa-fw fa-plus-circle txt-color-green'></i> <i class='fa fa-fw fa-minus-circle txt-color-red'></i><b> " + listamateriales[i].tipomaterial + " : " + listamateriales[i].material + "</b></a>";
+                    
+                    newAcordion += " <div id='" + listamateriales[i].idtipomaterial + "' class='panel-collapse collapse'>";
+                    newAcordion += " <div class='panel-body no-padding'>";
+                    newAcordion += " <table class='table table-bordered table-condensed'>"; 
+                    newAcordion += "<thead>";
+                  
+                    newAcordion += "<tr>";
+                    newAcordion += "<th class='text-center font-md hidden-xs hidden-sm'>Descripción</th>";
+                    newAcordion += "<th class='text-center font-md hidden-xs hidden-sm' >Valor</th>";
+                    newAcordion += "</tr>";
+                    newAcordion += "</thead>";
+                    newAcordion += "<tbody>";
+                    for (var y = 0; y < listamateriales[i].lista.length; y++) {
+                        newAcordion += "<tr >";
+                        newAcordion += "<td class='font-sm' >" + listamateriales[i].lista[y].descripcionEspecificacion + "</td > ";
+                        newAcordion += "<td class='font-sm'>" + listamateriales[i].lista[y].valorEspecificacion + "</td>";
+                        newAcordion += "</tr>";
+                    };
+                    newAcordion += "<tfoot>";
+                    newAcordion += "<tr>";
+                    newAcordion += "<a href='javascript:void (0)' class='btn btn-danger' title ='Eliminar' onclick='eliminarmaterial(" + listamateriales[i].idmaterial + ")'>Eliminar</a>";
+                    newAcordion += "</tr>";
+                    newAcordion += "</tfoot >";
+                    newAcordion += "</tbody>";
+                    
+                    newAcordion += "</table>";
+                    
+                    newAcordion += " </div>";
+                  
+                    newAcordion += " </div>";
+                };
+                newAcordion += " </div>";
+                document.getElementById("accordion").innerHTML = newAcordion;
+                $("#tipomaterialadicionado").show();
+            }
+        }
+
+        function adicionarmaterial()
+        {
+            $("#divdtanalisis").hide();
+            $("#mensajecompletematerial").hide();
+            $("#mensajeexistetematerial").hide();
+            $("#mensajeseleccionartodofiltar").hide();
+            document.getElementById("dtanalisis").innerHTML = "";
+            var tipomaterial = $("#selectTipoMaterial option:selected").text();
+            var idtipomaterial = $("#selectTipoMaterial").val();
+            var material = $("#selectMaterial option:selected").text();
+            var idmaterial = $("#selectMaterial").val();
+
+            if (idmaterial == 0 || idtipomaterial==0) {
+                $("#mensajecompletematerial").show();
+                return;
+            }
+
+            for (var i = 0; i < listamateriales.length; i++) {
+                if (listamateriales[i].idtipomaterial == idtipomaterial) {
+                    $("#mensajeexistetematerial").show();
+                    return;
+                }
+            }
+
+             mostrarLoadingPanel("content", "");
+                $.ajax({
+                type: 'POST',
+                url: '@Url.Action("EspecificacionesGeneralesMaterial","Analisis")',
+                dataType: 'json',
+                    data: { idmaterial: idmaterial },
+                    success: function (data) {
+                        listamateriales.push({ idtipomaterial: idtipomaterial, tipomaterial: tipomaterial, idmaterial: idmaterial, material: material, lista: data });
+                        tbdibujaradicionarmaterial();
+                $("#content").waitMe("hide");
+                }, complete: function (data) {
+                    $("#content").waitMe("hide");
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve data.' + ex);
+                    }
+            });
+        }
+
+
+       
+
+        function filtrar()
+          {
+            $("#mensajecompletematerial").hide();
+            $("#mensajeexistetematerial").hide();
+            var ProductoId = $("#ProductoId").val();
+
+            if (ProductoId==0) {
+                $("#mensajeseleccionarproducto").show();
+                return;
+            }
+
+            if (listamateriales.length == 0) {
+                
+                $("#mensajeseleccionartodofiltar").show();
+                document.getElementById("dtanalisis").innerHTML = "";
+                return;
+            }
+
+            mostrarLoadingPanel("content", "");
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("ListaEspecificaciones","Analisis")',
+            dataType: 'json',
+            data: { ProductoId: ProductoId, listamateriales:listamateriales },
+            success: function (data) {
+               
+                $("#divdtanalisis").show();
+                listaespecificaciones = [];
+                document.getElementById("dtanalisis").innerHTML = "";
+                var newTable = "<table id=dtanalisis class=table table-striped table-forum>";
+                newTable += "<thead>";
+                newTable += "<tr>";
+                newTable += "<th class='text-center hidden-xs hidden-sm' >Descripción</th>";
+                newTable += "<th class='text-center hidden-xs hidden-sm' >Mínimo</th>";
+                newTable += "<th class='text-center hidden-xs hidden-sm' >Máximo</th>";
+                newTable += "<th class='text-center hidden-xs hidden-sm' >Valor</th>";
+                newTable += "</tr>";
+                newTable += "</thead>";
+                newTable += "<tbody>";
+
+                
+                for (var i = 0; i < data.length; i++) {
+
+                    
+                    if (data[i].analisis == true) {
+
+                        var minimo = (data[i].rangoMinimoProducto == null ? "   " : data[i].rangoMinimoProducto);
+                        var maximo = (data[i].rangoMaximoProducto == null ? "   " : data[i].rangoMaximoProducto);
+
+                        //listaespecificaciones.push({ tipo=data[i].tipo, cumple: false, rangoMinimoProducto: minimo, rangoMaximoProducto: maximo, especificacionId: data[i].especificacionId, valorResultado: 0});
+                        if (data[i].tipo == "Texto") {
+                            newTable += "<tr id='fila_" + data[i].especificacionId +"'  class='text-success' >";
+                            newTable += "<td class='text-left' ><i id='icono_" + data[i].especificacionId + "' class='glyphicon glyphicon-thumbs-up fa-2x text-success' ></i >" + " &nbsp; &nbsp;" + data[i].descripcion + "</td > ";
+                            newTable += "<td class='text-center' >" + minimo + "</td>";
+                            newTable += "<td class='text-center'>" + maximo + "</td>";
+                            newTable += "<td class='text-center'> <select onchange='cambiocombo(" + data[i].especificacionId+")' id= 'valor_" + data[i].especificacionId + "' class='grado form-control'>";
+                            newTable += " <option class='text-success' value='CUMPLE' selected='selected'>CUMPLE</option>";
+                            newTable += " <option class='text-danger' value='NO CUMPLE'>NO CUMPLE</option>";
+                            newTable += "</select></td> ";
+                            newTable += "</tr>";
+                        }
+                        else {
+                            if (data[i].rangoMinimoProducto <= data[i].valorMaterial && data[i].rangoMaximoProducto >= data[i].valorMaterial) {
+                                newTable += "<tr id='fila_" + data[i].especificacionId+"' class='text-success' >";
+                                newTable += "<td class='text-left' ><i id='icono_" + data[i].especificacionId + "' class='glyphicon glyphicon-thumbs-up fa-2x text-success' ></i >" + " &nbsp; &nbsp;" + data[i].descripcion + "</td > ";
+                                newTable += "<td id='minimo_" + data[i].especificacionId + "' class='text-center' >" + minimo + "</td>";
+                                newTable += "<td id='maximo_" + data[i].especificacionId + "' class='text-center'>" + maximo + "</td>";
+                                newTable += "<td class='text-center' style='width: 40px;'><input class='grado' onkeyup='cambio("+data[i].especificacionId+")' id='valor_" + data[i].especificacionId + "' type='text' value=" + data[i].valorMaterial + "></td>";
+                                newTable += "</tr>";
+                            }
+                            else {
+                                newTable += "<tr id='fila_" + data[i].especificacionId +"' class='text-danger' >";
+                                newTable += "<td  class='text-left' ><i id='icono_" + data[i].especificacionId + "' class='glyphicon glyphicon-thumbs-down fa-2x text-danger' ></i >" + " &nbsp; &nbsp;" + data[i].descripcion + "</td > ";
+                                newTable += "<td id='minimo_" + data[i].especificacionId + "' class='text-center' >" + minimo + "</td>";
+                                newTable += "<td id='maximo_" + data[i].especificacionId + "' class='text-center'>" + maximo + "</td>";
+                                newTable += "<td class='text-center' style='width: 40px;'><input onkeyup='cambio(" + data[i].especificacionId + ")' class='grado' id='valor_" + data[i].especificacionId + "' type='text' value=" + data[i].valorMaterial + "></td>";
+                                newTable += "</tr>";
+                            }
+                        }
+                    }
+                   
+                };
+               
+                newTable += "</tbody>";
+                newTable += "</table>";
+                document.getElementById("dtanalisis").innerHTML = newTable;
+            }, complete: function (data) {
+                $("#content").waitMe("hide");
+            },
+                error: function (ex) {
+                alert('Failed to retrieve data.' + ex);
+            }
+        });
+
+        }
+
+        function cambiocombo(valor) {
+
+            var combo = $("#valor_" + valor).val();
+            var maximo = parseFloat($("#maximo_" + valor).text());
+            var iconoCumple = "glyphicon-thumbs-up";
+            var iconoNoCumple = "glyphicon-thumbs-down";
+            var textocumple = "text-success";
+            var textonocumple = "text-danger";
+
+            if (combo=="CUMPLE") {
+                    $("#fila_" + valor).addClass(textocumple).removeClass(textonocumple);
+                    $("#icono_" + valor).addClass(iconoCumple).addClass(textocumple).removeClass(textonocumple).removeClass(iconoNoCumple);
+                }
+                else {
+                    $("#fila_" + valor).addClass(textonocumple).removeClass(textocumple);
+                    $("#icono_" + valor).addClass(iconoNoCumple).addClass(textonocumple).removeClass(textocumple).removeClass(iconoCumple);
+                }
+        }
+
+        function cambio(valor)
+        {
+
+            var minimo = parseFloat($("#minimo_" + valor).text());
+            var maximo = parseFloat($("#maximo_" + valor).text());
+
+            var valorreal = parseFloat($("#valor_" + valor).val());
+            var iconoCumple= "glyphicon-thumbs-up";
+            var iconoNoCumple = "glyphicon-thumbs-down";
+            var textocumple = "text-success";
+            var textonocumple = "text-danger";
+
+            if (isNaN(minimo)) {
+                if (maximo >= valorreal) {
+                    $("#fila_" + valor).addClass(textocumple).removeClass(textonocumple);
+                    $("#icono_" + valor).addClass(iconoCumple).addClass(textocumple).removeClass(textonocumple).removeClass(iconoNoCumple);
+                }
+                else {
+                    $("#fila_" + valor).addClass(textonocumple).removeClass(textocumple);
+                    $("#icono_" + valor).addClass(iconoNoCumple).addClass(textonocumple).removeClass(textocumple).removeClass(iconoCumple);
+                }
+                return;
+            }
+
+            if (isNaN(maximo)) {
+                if (minimo <= valorreal) {
+                    $("#fila_" + valor).addClass(textocumple).removeClass(textonocumple);
+                    $("#icono_" + valor).addClass(iconoCumple).addClass(textocumple).removeClass(textonocumple).removeClass(iconoNoCumple);
+                }
+                else {
+                    $("#fila_" + valor).addClass(textonocumple).removeClass(textocumple);
+                    $("#icono_" + valor).addClass(iconoNoCumple).addClass(textonocumple).removeClass(textocumple).removeClass(iconoCumple);
+                }
+                return;
+            }
+
+
+            if ((minimo <= valorreal) && (maximo >= valorreal)) {
+                $("#fila_" + valor).addClass(textocumple).removeClass(textonocumple);
+                $("#icono_" + valor).addClass(iconoCumple).addClass(textocumple).removeClass(textonocumple).removeClass(iconoNoCumple);
+            }
+            else
+            {
+                $("#fila_" + valor).addClass(textonocumple).removeClass(textocumple);
+                $("#icono_" + valor).addClass(iconoNoCumple).addClass(textonocumple).removeClass(textocumple).removeClass(iconoCumple);
+            }
+
+        }
+
+        $("#selectTipoMaterial").change(function () {
+            $("#mensajecompletematerial").hide();
+            $("#mensajeexistetematerial").hide();
+            $("#mensajeseleccionartodofiltar").hide();
+            mostrarLoadingPanel("content", "");
+            $("#selectMaterial").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ListarMaterialPorTipo","Analisis")',
+                dataType: 'json',
+                data: { TipoMaterialId: $("#selectTipoMaterial").val() },
+                success: function (data) {
+                    $.each(data, function (i, data) {
+                        $("#selectMaterial").append('<option value="'
+                            + data.materialId + '">'
+                            + data.identificador + '</option>');
+                    });
+                    $("#selectMaterial").select2();
+                }, complete: function (data) {
+                    $("#content").waitMe("hide");
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve data.' + ex);
+                }
+            });
+            return false;
+        });
+
+
+        $("#ProductoId").change(function () {
+            $("#divdtanalisis").hide();
+            $("#mensajeseleccionartodofiltar").hide();
+            document.getElementById("dtanalisis").innerHTML = "";
+            $("#mensajeseleccionarproducto").hide();
+            mostrarLoadingPanel("content", "");
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDatosProducto","Analisis")',
+                dataType: 'json',
+                data: { ProductoId: $("#ProductoId").val() },
+                success: function (data) {
+                    $("#detalleproducto").show();
+                    $("#descripcionproducto").html(data.descripcionProducto + '<span>Descripción</span>');
+                    $("#observacionproducto").html(data.observacionProducto);
+                    $("#clasificacionproducto").html(data.claseProducto.claseDescripcion);
+                    $("#gradoproducto").html(data.grado);
+                    $("#diametroproducto").html(data.nominal);
+                }, complete: function (data) {
+                    $("#content").waitMe("hide");
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve data.' + ex);
+                }
+            });
+            return false;
+        });
+    </script>
+}

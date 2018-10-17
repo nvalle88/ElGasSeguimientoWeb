@@ -1,0 +1,78 @@
+@model SistemaCalidad.Models.ConfirmAccount
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-5 hidden-xs hidden-sm">
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="well no-padding">
+
+            <form asp-action="ConfirmAccount" method="post" novalidate="novalidate" class="smart-form client-form">
+                <header>
+                    <b> Confirmar usuario</b>
+                </header>
+                <fieldset>
+
+                    <section>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                    </section>
+                    <section class="col col-lg-12">
+                        <img src="~/img/logo.png" class="margin-top-10" style="width:inherit" alt="IdealAlambrecBekaert">
+                    </section>
+                    <section class="col col-lg-12"></section>
+                    <input type="hidden" asp-for="Email" />
+
+                    <section>
+                        <label class="label">Correo electrónico</label>
+                        <label class="input">
+                            <i class="icon-append fa fa-user"></i>
+                            <input type="email" disabled="disabled" asp-for="Email" placeholder="Correo electrónico">
+                            <b class="tooltip tooltip-bottom-right"><i class="fa fa-user txt-color-teal"></i> Ingrese el correo electrónico del usuario</b>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </label>
+                    </section>
+
+                    <section>
+                        <label class="label">Contrase&ntilde;a actual</label>
+                        <label class="input">
+                            <i class="icon-append fa fa-lock"></i>
+                            <input type="password" asp-for="CurrentPassword" placeholder="Contraseña actual">
+                            <b class="tooltip tooltip-bottom-right"><i class="fa fa-lock txt-color-teal"></i> Ingrese la contraseña actual</b>
+                            <span asp-validation-for="CurrentPassword" class="text-danger"></span>
+                        </label>
+                    </section>
+
+                    <section>
+                        <label class="label">Nueva contrase&ntilde;a</label>
+                        <label class="input">
+                            <i class="icon-append fa fa-lock"></i>
+                            <input type="password" asp-for="Password" placeholder="Nueva contraseña">
+                            <b class="tooltip tooltip-bottom-right"><i class="fa fa-lock txt-color-teal"></i> Ingrese la nueva contraseña</b>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </label>
+                    </section>
+
+                    <section>
+                        <label class="label">Confirmar nueva contrase&ntilde;a</label>
+                        <label class="input">
+                            <i class="icon-append fa fa-lock"></i>
+                            <input type="password" asp-for="ConfirmPassword" placeholder="Confirmar la nueva contraseña">
+                            <b class="tooltip tooltip-bottom-right"><i class="fa fa-lock txt-color-teal"></i> Ingrese la confirmación de la nueva contraseña</b>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </label>
+                    </section>
+                </fieldset>
+
+                <footer>
+                    <button type="submit" id="btn-guardar" class="btn btn-primary">
+                        Confirmar
+                    </button>
+                    <a asp-action="Login" class="btn btn-default"><strong> Cancelar </strong></a>
+                </footer>
+            </form>
+
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

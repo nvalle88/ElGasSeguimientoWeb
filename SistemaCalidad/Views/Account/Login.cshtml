@@ -1,0 +1,70 @@
+@model LoginViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-5 hidden-xs hidden-sm">
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="well no-padding">
+            <form asp-controller="Account" asp-action="Login" id="login-form" class="smart-form client-form">
+                <header>
+                    <b>Login</b>
+                </header>
+
+                <fieldset>
+
+                    <section>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                    </section>
+                    <section class="col col-lg-12">
+                        <img src="~/img/logo.png" class="margin-top-10" style="width:inherit" alt="IdealAlambrecBekaert">
+                    </section>
+                    <section class="col col-lg-12"></section>
+                    <section>
+                        <label class="label">Correo electr&oacute;nico</label>
+                        <label class="input">
+                            <i class="icon-append fa fa-user"></i>
+                            <input type="email" asp-for="Email" value="">
+                            <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Ingrese su correo</b>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </label>
+                    </section>
+
+                    <section>
+                        <label class="label">Contrase&ntilde;a</label>
+                        <label class="input">
+                            <i class="icon-append fa fa-lock"></i>
+                            <input type="password" asp-for="Password" value="">
+                            <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i>Ingrese su contraseña</b>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </label>
+                        <div class="note">
+                            <a asp-controller="Account" asp-action="ForgotPassword">&iquest; Perdi&oacute; su contrase&ntilde;a ?</a>
+                        </div>
+                    </section>
+
+                    <section>
+                        <label class="checkbox">
+                            <input type="checkbox" asp-for="RememberMe" checked="">
+                            <i></i> &iquest; Recuerdame ?
+                        </label>
+                    </section>
+                </fieldset>
+                <footer>
+                    <button type="submit" class="btn btn-primary ladda-button" id="btn-guardar">
+                        <span class="ladda-label" id="laddaSpanGuardar">ENTRAR</span>
+                    </button>
+                </footer>
+            </form>
+
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+   
+
+    <script src="~/lib/ladda/spin.min.js"></script>
+    <script src="~/lib/ladda/ladda.min.js"></script>
+
+    <script src="~/js/app/site.js"></script>
+}

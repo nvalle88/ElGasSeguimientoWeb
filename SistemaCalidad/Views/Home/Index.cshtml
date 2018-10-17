@@ -1,0 +1,206 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    #map_container {
+        position: relative;
+    }
+
+    #map {
+        height: 0;
+        overflow: hidden;
+        padding-bottom: 40.25%;
+        padding-top: 30px;
+        position: relative;
+    }
+
+    #floating-panel {
+        position: absolute;
+        top: 50px;
+        left: 1%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: inherit 1px solid #999;
+        text-align: left;
+        /*font-family: 'Roboto','sans-serif';*/
+        line-height: 5px;
+        padding-left: 5px;
+    }
+
+    #floating-panel {
+        border-radius: 5px;
+        background-color: #fff;
+        border: 1px solid #999;
+        left: 1%;
+        padding: 5px;
+        position: absolute;
+        top: 80px;
+        z-index: 999999;
+    }
+
+    #floating-panel2 {
+        position: absolute;
+        top: 100px;
+        left: 10%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: inherit 1px solid #999;
+        text-align: left;
+        /*font-family: 'Roboto','sans-serif';*/
+        line-height: 5px;
+        padding-left: 5px;
+    }
+
+    #floating-panel2 {
+        border-radius: 5px;
+        background-color: #fff;
+        border: 1px solid #999;
+        left: 1%;
+        padding: 10px;
+        position: absolute;
+        top: 190px;
+        z-index: 999999;
+    }
+
+    .pac-container {
+        z-index: 99999;
+    }
+
+    label {
+        font-size: 11px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        color: black;
+    }
+</style>
+
+<div id="content">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <section id="widget-grid" class="">
+                <div class="row">
+                    <article class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-fullscreenbutton="false" data-widget-close="false" data-widget-custombutton="false">
+                            <header draggable="true">
+                                <span class="widget-icon"> <i class="fa fa-map-marker"></i></span>
+                                <h2></h2>
+                            </header>
+                            <div>
+
+                                <div class="widget-body no-padding">
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div id="map_container"></div>
+                                                <div id="map"></div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+    {
+
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-functions.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
+    <script>
+
+        markersCarros = [];
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyAlyeelSwlbzrAKBTfZTjWK5o8Id-gQId4",
+            authDomain: "elgas-f24e8.firebaseapp.com",
+            databaseURL: "https://elgas-f24e8.firebaseio.com",
+            projectId: "elgas-f24e8",
+            storageBucket: "elgas-f24e8.appspot.com",
+            messagingSenderId: "5570742533"
+        };
+        firebase.initializeApp(config);
+
+
+            function initMap() {
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: { lat: -0.225219, lng: -78.52480 },
+                    zoom: 8
+                });
+
+            }
+
+      var  personaFireBase = firebase.database().ref().child("-LJVkHULelfySFjNF9-Q").child("Equipo-ElGas").child("Distribuidores");
+
+            personaFireBase.on("value", function (snap) {
+
+                var datos = snap.val();
+                for (const key in datos) {
+                    var myLatLng = { lat: datos[key].Latitud, lng: datos[key].Longitud };
+                    var id = key;
+                    if (markersCarros.length == 0) {
+                        var marker = new google.maps.Marker({
+                            position: myLatLng,
+                            map: map,
+                            title: 'Hello World!'
+                        });
+
+                        markersCarros.push({ marker, key })
+
+                    }
+                    
+                    else {
+                        var positionArray = existeCarro(key);
+                        if (positionArray >= 0) {
+                            markersCarros[positionArray].marker.setPosition(new google.maps.LatLng(myLatLng.lat, myLatLng.lng));
+
+                    }
+                    else {
+
+                        var marker = new google.maps.Marker({
+                            position: myLatLng,
+                            map: map,
+                            title: 'Carro',
+                        });
+                        markersCarros.push({ marker, key });
+                    }
+                   
+                    }
+                };
+               
+            }
+            );
+        
+        function existeCarro(Id) {
+            var miresultado = -1;
+            for (var i = 0; i < markersCarros.length; i++) {
+                if (markersCarros[i].key == Id) {
+                    miresultado = i;
+                    break;
+                }
+            }
+            return miresultado;
+        };
+   </script>
+    
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIBkXjci-D1Gog6Ez_BkpJcdtEnO1XsBA&libraries=visualization&callback=initMap"
+            async defer></script>
+
+}
