@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SistemaCalidad.Utils
+namespace ElGasSeguimientoWeb.Utils
 {
     public static class Mensaje
     {

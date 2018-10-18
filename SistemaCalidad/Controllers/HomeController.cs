@@ -3,13 +3,13 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SistemaCalidad.Models;
+using ElGasSeguimientoWeb.Models;
 
 #endregion
 
-namespace SistemaCalidad.Controllers
+namespace ElGasSeguimientoWeb.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "Distribuidores")]
     public class HomeController : Controller
     {
         public IActionResult Index() => View();

@@ -2,11 +2,11 @@
 
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using SistemaCalidad.Services;
+using ElGasSeguimientoWeb.Services;
 
 #endregion
 
-namespace SistemaCalidad.Extensions
+namespace ElGasSeguimientoWeb.Extensions
 {
     public static class EmailSenderExtensions
     {

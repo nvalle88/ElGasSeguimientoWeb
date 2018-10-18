@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 
 #endregion
 
-namespace SistemaCalidad.Extensions
+namespace ElGasSeguimientoWeb.Extensions
 {
     /// <summary>
     /// Defines a <c>TagHelper</c> that allows the specified route to be highlighted with the 'active' CSS class.

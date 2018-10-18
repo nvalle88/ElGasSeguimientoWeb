@@ -4,13 +4,13 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using SistemaCalidad.Models;
-using SistemaCalidad.Utils;
-using SistemaCalidad.Configuration;
+using ElGasSeguimientoWeb.Models;
+using ElGasSeguimientoWeb.Utils;
+using ElGasSeguimientoWeb.Configuration;
 
 #endregion
 
-namespace SistemaCalidad.Data
+namespace ElGasSeguimientoWeb.Data
 {
     /// <summary>
     /// Helper class that ensures that the data store used by the application contains the demo user.

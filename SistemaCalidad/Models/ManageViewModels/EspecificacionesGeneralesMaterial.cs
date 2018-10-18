@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SistemaCalidad.Models.ManageViewModels
+namespace ElGasSeguimientoWeb.Models.ManageViewModels
 {
     public class EspecificacionesGeneralesMaterial
     {

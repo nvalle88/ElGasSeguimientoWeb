@@ -1,11 +1,11 @@
 ﻿#region Using
 
 using System.ComponentModel.DataAnnotations;
-using SistemaCalidad.Utils;
+using ElGasSeguimientoWeb.Utils;
 
 #endregion
 
-namespace SistemaCalidad.Models
+namespace ElGasSeguimientoWeb.Models
 {
     public class LoginViewModel
     {

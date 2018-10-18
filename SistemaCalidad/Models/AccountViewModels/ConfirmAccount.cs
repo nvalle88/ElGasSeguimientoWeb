@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using SistemaCalidad.Utils;
+using ElGasSeguimientoWeb.Utils;
 
-namespace SistemaCalidad.Models
+namespace ElGasSeguimientoWeb.Models
 {
     public class ConfirmAccount
     {

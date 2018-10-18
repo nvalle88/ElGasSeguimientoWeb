@@ -1,4 +1,4 @@
-namespace SistemaCalidad.Configuration
+namespace ElGasSeguimientoWeb.Configuration
 {
     /// <summary>
     ///     Specifies the possible types of SQL Server based databases that are understood by the application.

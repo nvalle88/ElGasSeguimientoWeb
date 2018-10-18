@@ -1,11 +1,11 @@
 #region Using
 
 using Microsoft.AspNetCore.Mvc;
-using  SistemaCalidad.Controllers;
+using ElGasSeguimientoWeb.Controllers;
 
 #endregion
 
-namespace SistemaCalidad.Extensions
+namespace ElGasSeguimientoWeb.Extensions
 {
     public static class UrlHelperExtensions
     {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SistemaCalidad.Models;
+using ElGasSeguimientoWeb.Models;
 
-namespace SistemaCalidad.Data
+namespace ElGasSeguimientoWeb.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

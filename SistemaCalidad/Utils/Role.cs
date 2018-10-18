@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SistemaCalidad.Utils
+namespace ElGasSeguimientoWeb.Utils
 {
     public static class Role
     {

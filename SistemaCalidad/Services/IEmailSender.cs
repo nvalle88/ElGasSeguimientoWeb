@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 #endregion
 
-namespace SistemaCalidad.Services
+namespace ElGasSeguimientoWeb.Services
 {
     public interface IEmailSender
     {

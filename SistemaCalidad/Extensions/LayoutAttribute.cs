@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 #endregion
 
-namespace SistemaCalidad.Extensions
+namespace ElGasSeguimientoWeb.Extensions
 {
     /// <summary>
     ///     Provides the ability to override the chosen layout for actions.

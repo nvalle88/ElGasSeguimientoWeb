@@ -1,4 +1,4 @@
-﻿namespace SistemaCalidad.Models
+﻿namespace ElGasSeguimientoWeb.Models
 {
     public class GenerateRecoveryCodesViewModel
     {

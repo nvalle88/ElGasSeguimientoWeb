@@ -141,7 +141,7 @@
             function initMap() {
                 map = new google.maps.Map(document.getElementById('map'), {
                     center: { lat: -0.225219, lng: -78.52480 },
-                    zoom: 8
+                    zoom: 15
                 });
 
             }
@@ -161,15 +161,17 @@
                             title: 'Hello World!'
                         });
 
-                        markersCarros.push({ marker, key })
+                        markersCarros.push({ marker, key, myLatLng })
 
                     }
                     
                     else {
-                        var positionArray = existeCarro(key);
+                        var positionArray = existeCarro(key, myLatLng.lat, myLatLng.lng);
                         if (positionArray >= 0) {
-                            markersCarros[positionArray].marker.setPosition(new google.maps.LatLng(myLatLng.lat, myLatLng.lng));
-
+                            if (markersCarros[positionArray].myLatLng.lat != myLatLng.lat || markersCarros[positionArray].myLatLng.lng != myLatLng.lng) {
+                                markersCarros[positionArray].marker.setPosition(new google.maps.LatLng(myLatLng.lat, myLatLng.lng));
+                                markersCarros[positionArray].myLatLng = myLatLng;
+                            }
                     }
                     else {
 
@@ -177,8 +179,8 @@
                             position: myLatLng,
                             map: map,
                             title: 'Carro',
-                        });
-                        markersCarros.push({ marker, key });
+                            });
+                            markersCarros.push({ marker, key, myLatLng });
                     }
                    
                     }
@@ -187,7 +189,7 @@
             }
             );
         
-        function existeCarro(Id) {
+        function existeCarro(Id,lat,lng) {
             var miresultado = -1;
             for (var i = 0; i < markersCarros.length; i++) {
                 if (markersCarros[i].key == Id) {

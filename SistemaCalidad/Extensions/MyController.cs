@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SistemaCalidad.Extensions
+namespace ElGasSeguimientoWeb.Extensions
 {
     public static class MyController
     {

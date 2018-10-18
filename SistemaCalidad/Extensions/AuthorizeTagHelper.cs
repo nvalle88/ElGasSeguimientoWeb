@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 
 #endregion
 
-namespace SistemaCalidad.Extensions
+namespace ElGasSeguimientoWeb.Extensions
 {
     /// <summary>
     /// Defines a <c>TagHelper</c> that allows the attached element to be supressed if it does not meet the authorization requirements.

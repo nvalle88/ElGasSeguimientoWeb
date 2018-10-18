@@ -1,24 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SistemaCalidad.Data;
-using SistemaCalidad.Models;
-using SistemaCalidad.Services;
-using SistemaCalidad.Utils;
+using ElGasSeguimientoWeb.Data;
+using ElGasSeguimientoWeb.Models;
+using ElGasSeguimientoWeb.Services;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using NumberGenerate;
 using EnviarCorreo;
-using Microsoft.Extensions.Options;
 
-namespace SistemaCalidad
+namespace ElGasSeguimientoWeb
 {
     public class Startup
     {
@@ -59,6 +55,18 @@ namespace SistemaCalidad
             MailConfig.EmailFrom = Configuration.GetSection("EmailFrom").Value;
             MailConfig.NameFrom = Configuration.GetSection("NameFrom").Value;
 
+
+            services.AddAuthorization(opts => {
+                opts.AddPolicy("Administracion", policy => {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireRole("ADMINISTRADOR");
+                });
+
+                opts.AddPolicy("Distribuidores", policy => {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireRole("ADMINISTRADOR", "DISTRIBUIDOR");
+                });
+            });
 
             services.AddTransient<ApplicationDbSeeder>();   
 

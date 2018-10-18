@@ -14,17 +14,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NumberGenerate;
 using SendMails.methods;
-using SistemaCalidad.Data;
-using SistemaCalidad.Extensions;
-using SistemaCalidad.Models;
-using SistemaCalidad.Services;
-using SistemaCalidad.Utils;
+using ElGasSeguimientoWeb.Data;
+using ElGasSeguimientoWeb.Extensions;
+using ElGasSeguimientoWeb.Models;
+using ElGasSeguimientoWeb.Services;
+using ElGasSeguimientoWeb.Utils;
 
 #endregion
 
-namespace SistemaCalidad.Controllers
+namespace ElGasSeguimientoWeb.Controllers
 {
-    [Authorize]
+    [Authorize(Policy ="Administracion")]
     [Route("[controller]/[action]")]
     [Layout("_AuthLayout")]
     public class AccountController : Controller

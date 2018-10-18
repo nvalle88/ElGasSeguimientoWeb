@@ -1,13 +1,13 @@
 #region Using
 
 using System;
-using SistemaCalidad.Configuration;
+using ElGasSeguimientoWeb.Configuration;
 
 // ReSharper disable MemberCanBePrivate.Global
 
 #endregion
 
-namespace SistemaCalidad.Extensions
+namespace ElGasSeguimientoWeb.Extensions
 {
     /// <summary>
     /// Contains extension methods that help with the flow of the application.

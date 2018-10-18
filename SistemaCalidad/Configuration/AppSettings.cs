@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 
 #endregion
 
-namespace SistemaCalidad.Configuration
+namespace ElGasSeguimientoWeb.Configuration
 {
     /// <summary>
     /// Provides strong-typed access to the the application settings that are loaded through the 'appSettings.json' file.

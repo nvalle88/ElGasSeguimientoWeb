@@ -9,12 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NumberGenerate;
 using SendMails.methods;
-using SistemaCalidad.Data;
-using SistemaCalidad.Extensions;
-using SistemaCalidad.Models;
-using SistemaCalidad.Utils;
+using ElGasSeguimientoWeb.Data;
+using ElGasSeguimientoWeb.Extensions;
+using ElGasSeguimientoWeb.Models;
+using ElGasSeguimientoWeb.Utils;
 
-namespace SistemaCalidad.Controllers
+namespace ElGasSeguimientoWeb.Controllers
 {
     public class UsersController : Controller
     {

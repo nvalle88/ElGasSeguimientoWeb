@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 #endregion
 
-namespace SistemaCalidad.Models
+namespace ElGasSeguimientoWeb.Models
 {
     public class ExternalLoginViewModel
     {

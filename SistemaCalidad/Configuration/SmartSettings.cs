@@ -1,4 +1,4 @@
-namespace SistemaCalidad.Configuration
+namespace ElGasSeguimientoWeb.Configuration
 {
     /// <summary>
     ///     Contains settings that apply to the SmartAdmin themed application.

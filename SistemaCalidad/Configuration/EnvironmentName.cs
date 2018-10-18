@@ -1,4 +1,4 @@
-namespace SistemaCalidad.Configuration
+namespace ElGasSeguimientoWeb.Configuration
 {
     /// <summary>
     ///     Defines the possible environment names that are supported for hosting the application.

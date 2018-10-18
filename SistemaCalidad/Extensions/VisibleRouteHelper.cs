@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 
 #endregion
 
-namespace SistemaCalidad.Extensions
+namespace ElGasSeguimientoWeb.Extensions
 {
     /// <summary>
     ///     Defines a <c>TagHelper</c> that allows the specified element to be hidden when the specified route is 'active'.
