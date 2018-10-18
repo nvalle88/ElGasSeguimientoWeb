@@ -125,6 +125,8 @@
     <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
     <script>
 
+       
+        var icon1 =
         markersCarros = [];
         // Initialize Firebase
         var config = {
@@ -144,6 +146,14 @@
                     zoom: 15
                 });
 
+                icon1 =
+                {
+                    url: "../img/camion.png", // url
+                    scaledSize: new google.maps.Size(64, 64), // scaled size
+                    origin: new google.maps.Point(0,0), // origin
+                    anchor: new google.maps.Point(32,64) // anchor
+                };
+
             }
 
       var  personaFireBase = firebase.database().ref().child("-LJVkHULelfySFjNF9-Q").child("Equipo-ElGas").child("Distribuidores");
@@ -153,15 +163,16 @@
                 var datos = snap.val();
                 for (const key in datos) {
                     var myLatLng = { lat: datos[key].Latitud, lng: datos[key].Longitud };
-                    var id = key;
+                    var id = datos[key].id;
                     if (markersCarros.length == 0) {
                         var marker = new google.maps.Marker({
+                            icon: icon1,
                             position: myLatLng,
                             map: map,
                             title: 'Hello World!'
                         });
 
-                        markersCarros.push({ marker, key, myLatLng })
+                        markersCarros.push({ marker, key, myLatLng, id })
 
                     }
                     
@@ -175,10 +186,12 @@
                     }
                     else {
 
-                        var marker = new google.maps.Marker({
-                            position: myLatLng,
-                            map: map,
-                            title: 'Carro',
+                            var marker = new google.maps.Marker({
+                                icon: icon1,
+                                position: myLatLng,
+                                map: map,
+                                title: 'Carro',
+
                             });
                             markersCarros.push({ marker, key, myLatLng });
                     }
