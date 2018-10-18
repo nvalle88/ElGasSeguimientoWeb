@@ -39,7 +39,7 @@ namespace ElGasSeguimientoWeb
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            
+
             GenerateNumber.Lower = Convert.ToInt32(Configuration.GetSection("LowerRandom").Value);
             GenerateNumber.Top = Convert.ToInt32(Configuration.GetSection("TopRandom").Value);
 

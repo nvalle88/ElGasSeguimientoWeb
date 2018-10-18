@@ -125,9 +125,10 @@
     <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
     <script>
 
-       
-        var icon1 =
+
+        var icon1 = null;
         markersCarros = [];
+        ListaDistribuidores = [];
         // Initialize Firebase
         var config = {
             apiKey: "AIzaSyAlyeelSwlbzrAKBTfZTjWK5o8Id-gQId4",
@@ -138,7 +139,6 @@
             messagingSenderId: "5570742533"
         };
         firebase.initializeApp(config);
-
 
             function initMap() {
                 map = new google.maps.Map(document.getElementById('map'), {
@@ -153,7 +153,6 @@
                     origin: new google.maps.Point(0,0), // origin
                     anchor: new google.maps.Point(32,64) // anchor
                 };
-
             }
 
       var  personaFireBase = firebase.database().ref().child("-LJVkHULelfySFjNF9-Q").child("Equipo-ElGas").child("Distribuidores");
@@ -162,46 +161,87 @@
 
                 var datos = snap.val();
                 for (const key in datos) {
-                    var myLatLng = { lat: datos[key].Latitud, lng: datos[key].Longitud };
+                    var distribuidor = null
                     var id = datos[key].id;
+                    var Nombre = datos[key].Nombre;
+                    var Placa = datos[key].Placa;
+                    var myLatLng = { lat: datos[key].Latitud, lng: datos[key].Longitud };
+
+                    var contentString = '<div id="content">' +
+                        '<div id="siteNotice">' +
+                        '<h4 id="firstHeading" class="firstHeading">El Gas</h1>' +
+                        '</br>' +
+                        '<div id="bodyContent">' +
+                        '<p><b>Nombre:</b>' + Nombre + '.</p>' +
+                        '<p><b>Placa:</b>' + Placa + '.</p>' +
+                        '</div>' +
+                        '</div>';
+
                     if (markersCarros.length == 0) {
+
                         var marker = new google.maps.Marker({
                             icon: icon1,
                             position: myLatLng,
                             map: map,
-                            title: 'Hello World!'
+                            title: Nombre
                         });
+                       
 
-                        markersCarros.push({ marker, key, myLatLng, id })
+                        var infowindow = new google.maps.InfoWindow();
 
-                    }
-                    
-                    else {
-                        var positionArray = existeCarro(key, myLatLng.lat, myLatLng.lng);
-                        if (positionArray >= 0) {
-                            if (markersCarros[positionArray].myLatLng.lat != myLatLng.lat || markersCarros[positionArray].myLatLng.lng != myLatLng.lng) {
-                                markersCarros[positionArray].marker.setPosition(new google.maps.LatLng(myLatLng.lat, myLatLng.lng));
-                                markersCarros[positionArray].myLatLng = myLatLng;
+                        google.maps.event.addListener(marker, "click", (function (marker, contentString, infowindow) {
+                            // !!! PROBLEM HERE
+                            return function (evt) {
+
+                                infowindow.setContent(contentString);
+                                infowindow.open(map, marker);
                             }
-                    }
-                    else {
+                        })(marker, contentString, infowindow));
+                        markersCarros.push({ marker, key, myLatLng, id, Nombre, Placa })
 
-                            var marker = new google.maps.Marker({
-                                icon: icon1,
-                                position: myLatLng,
-                                map: map,
-                                title: 'Carro',
+                        }
 
-                            });
-                            markersCarros.push({ marker, key, myLatLng });
-                    }
-                   
-                    }
+                        else {
+                            var positionArray = existeCarro(key, myLatLng.lat, myLatLng.lng);
+                            if (positionArray >= 0) {
+                                if (markersCarros[positionArray].myLatLng.lat != myLatLng.lat || markersCarros[positionArray].myLatLng.lng != myLatLng.lng) {
+                                    markersCarros[positionArray].marker.setPosition(new google.maps.LatLng(myLatLng.lat, myLatLng.lng));
+                                    markersCarros[positionArray].myLatLng = myLatLng;
+                                    
+
+
+                                   
+                                }
+                            }
+                            else {
+                                var marker = new google.maps.Marker({
+                                    icon: icon1,
+                                    position: myLatLng,
+                                    map: map,
+                                    title: Nombre
+
+                                });
+
+                                var infowindow = new google.maps.InfoWindow();
+
+                                google.maps.event.addListener(marker, "click", (function (marker, contentString, infowindow) {
+                                    // !!! PROBLEM HERE
+                                    return function (evt) {
+
+                                        infowindow.setContent(contentString);
+                                        infowindow.open(map, marker);
+                                    }
+                                })(marker, contentString, infowindow));
+                                markersCarros.push({ marker, key, myLatLng, id, Nombre, Placa })
+                            }
+
+                        }
+
                 };
-               
+
             }
             );
-        
+
         function existeCarro(Id,lat,lng) {
             var miresultado = -1;
             for (var i = 0; i < markersCarros.length; i++) {
@@ -212,8 +252,8 @@
             }
             return miresultado;
         };
-   </script>
-    
+    </script>
+
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIBkXjci-D1Gog6Ez_BkpJcdtEnO1XsBA&libraries=visualization&callback=initMap"
             async defer></script>
