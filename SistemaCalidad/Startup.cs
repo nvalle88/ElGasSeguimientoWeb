@@ -13,6 +13,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using NumberGenerate;
 using EnviarCorreo;
+using ElGasSeguimientoWeb.Utils;
 
 namespace ElGasSeguimientoWeb
 {
@@ -68,7 +69,12 @@ namespace ElGasSeguimientoWeb
                 });
             });
 
-            services.AddTransient<ApplicationDbSeeder>();   
+
+
+            services.AddTransient<ApplicationDbSeeder>();
+
+            Role.Administrador = Configuration.GetSection("Roles:0").Value;
+            Role.Distribuidor = Configuration.GetSection("Roles:1").Value;
 
 
             var TiempoVidaCookie = Convert.ToDouble(Configuration.GetSection("TiempoVidaCookie").Value);

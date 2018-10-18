@@ -7,8 +7,7 @@ namespace ElGasSeguimientoWeb.Utils
 {
     public static class Role
     {
-        public static string SuperAdmin { get; set; }
-        public static string Calidad { get; set; }
-        public static string Planta { get; set; }
+        public static string Administrador { get; set; }
+        public static string Distribuidor { get; set; }
     }
 }
