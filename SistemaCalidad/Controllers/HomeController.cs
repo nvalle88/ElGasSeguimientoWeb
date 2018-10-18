@@ -17,18 +17,6 @@ namespace ElGasSeguimientoWeb.Controllers
     {
 
         public IActionResult Index() => View();
-
-        [Route("dashboard-marketing")]
-        public IActionResult DashboardMarketing() => View();
-
-        [Route("dashboard-social")]
-        public IActionResult SocialWall() => View();
-
-        public IActionResult Inbox() => View();
-
-        public IActionResult Chat() => View();
-
-        public IActionResult Widgets() => View();
         public IActionResult Error() => View(new ErrorViewModel
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
