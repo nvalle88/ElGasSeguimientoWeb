@@ -95,7 +95,7 @@ namespace ElGasSeguimientoWeb.Controllers
                                 EmailConfirmed = false,
                                 Status=user.Status,
                             };
-                            var password = "Bekaert"+ GenerateNumber.Generate().ToString();
+                            var password = PasswordUtil.Password+ GenerateNumber.Generate().ToString();
                             var z= await userManager.CreateAsync(RegistredUser, password);
                             var userd =await userManager.FindByEmailAsync(user.Email);
                             if (!await userManager.IsInRoleAsync(userd, user.IdRol))
@@ -105,7 +105,7 @@ namespace ElGasSeguimientoWeb.Controllers
 
                             var mensaje = Configuration.GetSection("SubjectCreateUser").Value
                                           + "\n \n Hola Señor(a): " + userd.Name + " " + userd.LastName
-                                           + "\n \n Le informamos que se ha creado su usuario en el sistema de calidad."
+                                           + "\n \n Le informamos que se ha creado su usuario en el sistema de seguimiento."
                                           + "\n \n Credenciales de ingreso al sistema."
                                           + "\n \n Usuario:  " + userd.Email
                                           + "\n \n Contraseña temporal: " + password 

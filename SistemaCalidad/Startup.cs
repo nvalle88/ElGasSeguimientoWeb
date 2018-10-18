@@ -76,6 +76,8 @@ namespace ElGasSeguimientoWeb
             Role.Administrador = Configuration.GetSection("Roles:0").Value;
             Role.Distribuidor = Configuration.GetSection("Roles:1").Value;
 
+            PasswordUtil.Password = Configuration.GetSection("PasswordUtil").Value;
+
 
             var TiempoVidaCookie = Convert.ToDouble(Configuration.GetSection("TiempoVidaCookie").Value);
 

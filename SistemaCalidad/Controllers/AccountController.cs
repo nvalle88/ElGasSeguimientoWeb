@@ -86,7 +86,7 @@ namespace ElGasSeguimientoWeb.Controllers
 
             if (user!=null)
             {
-                var password = "Bekaert" + GenerateNumber.Generate().ToString();
+                var password = PasswordUtil.Password + GenerateNumber.Generate().ToString();
                 await _userManager.RemovePasswordAsync(user);
                 await _userManager.AddPasswordAsync(user, password);
                 user.EmailConfirmed = false;
